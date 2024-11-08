@@ -1,12 +1,11 @@
-import Navbar from "@/layout/Navbar";
+import Navbar from "@/layout/navbar";
 
-export default function home() {
+export default function Home() {
   return (
     <main className="relative h-screen w-full text-black">
-      {/* Background layer with 70% opacity */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/home/background.jpg')" }}
+        style={{ backgroundImage: "url('/home/background.png')" }}
       />
 
       {/* Main content */}
@@ -17,7 +16,7 @@ export default function home() {
         <div className="flex flex-col justify-center items-center mt-32 md:mt-60 w-full">
           {/* Desktop and Tablet */}
           <h1 className="hidden md:block font-Passion text-8xl text-white">
-            Manage Your Results <br />{" "}
+            Manage Your Finances <br />{" "}
             <span className="flex justify-center items-center">
               With Expiense
             </span>
