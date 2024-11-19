@@ -1,11 +1,11 @@
 import Navbar from "@/layout/navbar";
 
-export default function Home() {
+export default function Home({ token }) {
   return (
     <main className="relative h-screen w-full text-black">
       <div
         className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/home/background.png')" }}
+        style={{ backgroundImage: "url('/home/background.jpg')" }}
       />
 
       {/* Main content */}
@@ -49,8 +49,33 @@ export default function Home() {
               productivity or managing your finances.
             </p>
           </div>
+          {token && (
+            <button
+              className="mt-10 text-md bg-white px-5 py-2 rounded-md text-black font-bold font-Poppins hover:cursor-pointer hover:bg-gray-50"
+              onClick={() => (window.location.href = "/dashboard/overview")}
+            >
+              Explore Now
+            </button>
+          )}
         </div>
       </div>
     </main>
   );
 }
+
+export const getServerSideProps = async (context) => {
+  const token = context.req.cookies.token;
+  if (token) {
+    return {
+      props: {
+        token,
+      },
+    };
+  } else {
+    return {
+      props: {
+        token: null,
+      },
+    };
+  }
+};

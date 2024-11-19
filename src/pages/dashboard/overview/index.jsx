@@ -1,7 +1,25 @@
-import SidebarLayout from "@/layout/layout";
-import RootLayout from "@/layout/layout";
-import React from "react";
-
-export default function index() {
-  return <SidebarLayout><p className="text-white">Halo</p></SidebarLayout>;
+import SidebarLayout from "@/layout/layout";  
+export default function Overview() {
+  return (
+    <SidebarLayout>
+      <h1>Welcome to your Dashboard</h1>
+    </SidebarLayout>
+  );
 }
+
+export const getServerSideProps = async (context) => {
+  const token = context.req.cookies.token;
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/auth/signin",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {
+      token: null,
+    },
+  };
+};
