@@ -1,6 +1,6 @@
 import Navbar from "@/layout/navbar";
 
-export default function Home({ token }) {
+export default function Home({ token, user }) {
   return (
     <main className="relative h-screen w-full text-black">
       <div
@@ -11,7 +11,7 @@ export default function Home({ token }) {
       {/* Main content */}
       <div className="relative z-10 h-full w-full bg-cover bg-center">
         <div className="pt-5">
-          <Navbar />
+          <Navbar token={token} user={user} />
         </div>
         <div className="flex flex-col justify-center items-center mt-32 md:mt-60 w-full">
           {/* Desktop and Tablet */}
@@ -63,15 +63,33 @@ export default function Home({ token }) {
   );
 }
 
+import axios from "axios";
+
 export const getServerSideProps = async (context) => {
   const token = context.req.cookies.token;
   if (token) {
-    return {
-      props: {
-        token,
-      },
-    };
+    try {
+      const response = await axios.get("http://localhost:5000/api/auth/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return {
+        props: {
+          token,
+          user: response.data,
+        },
+      };
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      return {
+        props: {
+          token: null,
+        },
+      };
+    }
   } else {
+    console.log("No token found.");
     return {
       props: {
         token: null,

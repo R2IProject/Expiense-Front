@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default function Navbar() {
+export default function Navbar({ token, user }) {
   return (
     <>
       <div className="bg-white mx-5 md:mx-32 rounded-full">
@@ -15,9 +15,13 @@ export default function Navbar() {
             height={1000}
           />
           <div className="my-4">
-            <Link href="/auth/signin">
-              <button className="font-bold text-xl">Sign up</button>
-            </Link>
+            {token ? (
+              <p>Hello {user.name} 😊</p>
+            ) : (
+              <Link href="/auth/signin">
+                <button className="font-bold text-xl">Sign In</button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
