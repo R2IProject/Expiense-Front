@@ -2,6 +2,7 @@ import { useState } from "react";
 import { message } from "antd";
 import { useRouter } from "next/router";
 import axios from "axios";
+import Link from "next/link";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -30,31 +31,27 @@ export default function LoginForm() {
           content: "Welcome! We’re excited to have you onboard 😊",
           duration: 2,
         });
-        router.push("/dashboard/overview");
+        setTimeout(() => {
+          router.push("/dashboard/overview");
+        }, 2500);
         setLoading(false);
       })
       .catch((err) => {
         setLoading(false);
-        if (err.response) {
-          if (err.response.status === 400) {
-            messageApi.open({
-              type: "error",
-              content:
-                "Oops! Something seems off with the details you provided. Please double-check and try again 😅",
-            });
-          } else if (err.response.status === 404) {
-            messageApi.open({
-              type: "error",
-              content:
-                "It looks like you’re not registered yet! Why not join us and sign up? 🤗",
-            });
-          } else if (err.response.status === 500) {
-            messageApi.open({
-              type: "error",
-              content:
-                "Uh-oh, something went wrong on our end. Please try again later or reach out for help. We’re here for you! 😔",
-            });
-          }
+        const { response } = err;
+        if (response) {
+          const messageMap = {
+            400: "Oops! Something seems off with the details you provided. Please double-check and try again 😅",
+            404: "It looks like you’re not registered yet! Why not join us and sign up? 🤗",
+            500: "Uh-oh, something went wrong on our end. Please try again later or reach out for help. We’re here for you! 😔",
+          };
+
+          messageApi.open({
+            type: "error",
+            content:
+              messageMap[response.status] ||
+              "An unexpected error occurred. Please try again later 😣.",
+          });
         } else {
           console.error(err);
         }
@@ -71,7 +68,14 @@ export default function LoginForm() {
         🎉 Welcome! We're excited to have you here. Please enter your
         information to sign in and let's get started on something amazing! 🚀😊
       </p>
-      <form onSubmit={handleSubmit} className="mt-20">
+      <p className="text-center text-gray-800 mt-10">
+        No account?{" "}
+        <Link href="/auth/signup">
+          <span className="text-blue-500 hover:underline">Register</span>
+        </Link>{" "}
+        now and join our community! 🎉
+      </p>
+      <form onSubmit={handleSubmit} className="mt-5">
         {/* Email Input */}
         <div className="mb-4">
           <label htmlFor="email" className="block text-gray-700">
