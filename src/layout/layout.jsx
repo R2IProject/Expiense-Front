@@ -78,12 +78,15 @@ const SidebarLayout = ({ children }) => {
   const pathname = router.pathname.split("/");
   const selectedKey =
     SidebarItem.find((item) => pathname[2] === item.path)?.key || "1";
+
   useEffect(() => {
     const LayoutHeader = SidebarItem.find((item) => pathname[2] === item.path);
     setLayoudHeader(LayoutHeader);
   }, [pathname]);
+
   const DeveloperKeys = ["1", "2"];
   let KeyItems = null;
+
   if (SidebarItem) {
     if (userRole?.role === "Developer") {
       KeyItems = SidebarItem.filter((item) => DeveloperKeys.includes(item.key));

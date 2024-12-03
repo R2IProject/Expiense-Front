@@ -17,7 +17,7 @@ export default function RegisterForm() {
     e.preventDefault();
     axios
       .post(
-        "http://localhost:5000/api/auth/register",
+        "http://localhost:5000/api-expiense/auth/register",
         { name, email, phone, password, role: "Visitor" },
         { withCredentials: true }
       )

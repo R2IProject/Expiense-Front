@@ -17,7 +17,7 @@ export default function LoginForm() {
 
     axios
       .post(
-        "http://localhost:5000/api/auth/login",
+        "http://localhost:5000/api-expiense/auth/login",
         { email, password },
         { withCredentials: true }
       )

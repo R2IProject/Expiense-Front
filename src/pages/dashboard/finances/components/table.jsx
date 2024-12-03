@@ -8,26 +8,28 @@ const Table = () => {
   ]);
 
   return (
-    <div className="overflow-x-auto bg-[#3c3f46] text-white p-4 rounded-lg">
-      <table className="min-w-full text-sm">
-        <thead>
-          <tr className="border-b border-gray-600">
-            <th className="py-2 px-4 text-left">Name</th>
-            <th className="py-2 px-4 text-left">Age</th>
-            <th className="py-2 px-4 text-left">Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td className="py-2 px-4">{item.name}</td>
-              <td className="py-2 px-4">{item.age}</td>
-              <td className="py-2 px-4">{item.role}</td>
+    <>
+      <div className="overflow-x-auto text-white mt-12">
+        <table className="w-[900px] bg-primary text-xl p-4 rounded-lg">
+          <thead>
+            <tr className="border-b border-gray-600">
+              <th className="py-2 px-4 text-left">Name</th>
+              <th className="py-2 px-4 text-left">Age</th>
+              <th className="py-2 px-4 text-left">Role</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {data.map((item, index) => (
+              <tr key={index}>
+                <td className="py-2 px-4">{item.name}</td>
+                <td className="py-2 px-4">{item.age}</td>
+                <td className="py-2 px-4">{item.role}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 };
 
