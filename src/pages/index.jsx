@@ -101,7 +101,6 @@ export const getServerSideProps = async (context) => {
         },
       };
     } catch (error) {
-      console.error("Error fetching user:", error);
       return {
         props: {
           token: null,
@@ -109,7 +108,6 @@ export const getServerSideProps = async (context) => {
       };
     }
   } else {
-    console.log("No token found.");
     return {
       props: {
         token: null,

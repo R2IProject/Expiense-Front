@@ -52,8 +52,6 @@ export default function LoginForm() {
               messageMap[response.status] ||
               "An unexpected error occurred. Please try again later 😣.",
           });
-        } else {
-          console.error(err);
         }
       });
   };

@@ -2,9 +2,9 @@ import Dropdown from "@/common/dropdown";
 import DatePicker from "../../../../common/datepicker";
 import { message } from "antd";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-const ExpenseForm = ({ token }) => {
+const ExpenseForm = ({ token, refetch }) => {
   const [selectedTypeOfExpens, setSelectedTypeOfExpens] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
@@ -20,6 +20,7 @@ const ExpenseForm = ({ token }) => {
   const [NoIncomeOutcome, setNoIncomeOutcome] = useState(false);
   const [displayDate, setDispayDate] = useState(false);
   const [userData, setUserData] = useState(null);
+
   useEffect(() => {
     const getUserData = async () => {
       try {
@@ -34,7 +35,6 @@ const ExpenseForm = ({ token }) => {
         setUserData(response.data);
       } catch (error) {
         messageApi.error("Failed to fetch user data");
-        console.error("Error fetching user:", error);
       }
     };
     getUserData();
@@ -49,6 +49,7 @@ const ExpenseForm = ({ token }) => {
       currency: null,
       type: null,
       items: null,
+      status: "NIO",
       item_purchased_date: null,
       stored_income_date: null,
     };
@@ -60,6 +61,7 @@ const ExpenseForm = ({ token }) => {
       currency: currecyType ?? "",
       type: selectedTypeOfExpens ?? "",
       items: e?.target.items?.value || null,
+      status: null,
       item_purchased_date:
         selectedTypeOfExpens === "Outcome" ? purchasedDate : null,
       stored_income_date: selectedTypeOfExpens === "Income" ? incomeDate : null,
@@ -78,26 +80,26 @@ const ExpenseForm = ({ token }) => {
         setTimeout(() => {
           setLoading(false);
         }, 2000);
+        refetch();
+        setNoIncomeOutcome(false);
       })
       .catch((err) => {
-        message.error(err.response.data.message);
+        message.error(err.message);
         setTimeout(() => {
           setLoading(false);
         }, 2000);
+        setNoIncomeOutcome(false);
       });
   };
 
+  useEffect(() => {
+    if (NoIncomeOutcome === true) {
+      handleSubmit();
+    }
+  }, [NoIncomeOutcome]);
+
   return (
     <div className="flex flex-col">
-      <button
-        className="w-full bg-blue-500 text-white font-medium rounded-md"
-        onClick={() => {
-          setNoIncomeOutcome(true);
-          handleSubmit();
-        }}
-      >
-        NIO
-      </button>
       {contextHolder}
       <form className="mt-8 w-[30vh]" onSubmit={handleSubmit}>
         {/* Amount */}
@@ -251,6 +253,12 @@ const ExpenseForm = ({ token }) => {
           </button>
         </div>
       </form>
+      <button
+        className="w-full mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={() => setNoIncomeOutcome(true)}
+      >
+        No Income / Outcome
+      </button>
     </div>
   );
 };
