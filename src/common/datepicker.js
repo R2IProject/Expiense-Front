@@ -43,7 +43,7 @@ export default function Calendar({
   };
 
   return (
-    <div className="flex flex-col items-center p-4 bg-primary w-[300px] rounded-xl">
+    <div className="flex flex-col items-center p-4 bg-primary w-[282px] rounded-xl">
       {/* Month */}
       <div className="flex justify-between text-lg font-semibold w-full text-center text-white py-2 mb-2 rounded-full">
         <FaAngleLeft

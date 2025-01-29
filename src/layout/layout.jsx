@@ -84,12 +84,12 @@ const SidebarLayout = ({ children }) => {
     setLayoudHeader(LayoutHeader);
   }, [pathname]);
 
-  const DeveloperKeys = ["1", "2"];
+  const VisitorKeys = ["1", "2"];
   let KeyItems = null;
 
   if (SidebarItem) {
-    if (userRole?.role === "Developer") {
-      KeyItems = SidebarItem.filter((item) => DeveloperKeys.includes(item.key));
+    if (userRole?.role === "Visitor") {
+      KeyItems = SidebarItem.filter((item) => VisitorKeys.includes(item.key));
     }
   }
 
@@ -154,7 +154,9 @@ const SidebarLayout = ({ children }) => {
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-4 bg-[#20232A]">{children}</main>
+        <main className="flex-1 p-4 bg-[#20232A] overflow-y-auto">
+          {children}
+        </main>
       </div>
     </div>
   );

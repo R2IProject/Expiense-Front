@@ -1,22 +1,22 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-export function getUserFinancesData(id, token) {
-  const [userData, setUserData] = useState([]);
+export function getFinancesBalancesData(id, token) {
+  const [balancesData, setBalancesData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [messages, setMessage] = useState("");
 
-  const getUserData = () => {
+  const getBalancesData = () => {
     if (!id) return;
     setLoading(true);
     axios
-      .get(`http://localhost:5000/api-expiense/finances_by_user_id/${id}`, {
+      .get(`http://localhost:5000/api-expiense/finances_balance_by_userId/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        setUserData(res.data);
+        setBalancesData(res.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -26,8 +26,8 @@ export function getUserFinancesData(id, token) {
   };
   useEffect(() => {
     if (id) {
-      getUserData();
+      getBalancesData();
     }
   }, [id]);
-  return { userData, loading, messages, getUserData };
+  return { balancesData, loading, messages, getBalancesData };
 }

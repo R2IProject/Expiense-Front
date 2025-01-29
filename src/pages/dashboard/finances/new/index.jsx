@@ -1,12 +1,18 @@
 import Dropdown from "@/common/dropdown";
-import DatePicker from "../../../../common/datepicker";
+import DatePicker from "@/common/datepicker";
 import { message } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const ExpenseForm = ({ token, refetch }) => {
-  const [selectedTypeOfExpens, setSelectedTypeOfExpens] = useState("");
+const ExpenseForm = ({ token, refetch, userFinancesData, refetchBalances }) => {
+  // Libray Ui
   const [messageApi, contextHolder] = message.useMessage();
+
+  // Consume Data
+  const [userData, setUserData] = useState(null);
+
+  // State
+  const [selectedTypeOfExpens, setSelectedTypeOfExpens] = useState("");
   const [loading, setLoading] = useState(false);
   const [currecyType, setCurrecyType] = useState("IDR");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -19,7 +25,6 @@ const ExpenseForm = ({ token, refetch }) => {
   );
   const [NoIncomeOutcome, setNoIncomeOutcome] = useState(false);
   const [displayDate, setDispayDate] = useState(false);
-  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -81,6 +86,7 @@ const ExpenseForm = ({ token, refetch }) => {
           setLoading(false);
         }, 2000);
         refetch();
+        refetchBalances();
         setNoIncomeOutcome(false);
       })
       .catch((err) => {
@@ -102,11 +108,17 @@ const ExpenseForm = ({ token, refetch }) => {
     <div className="flex flex-col">
       {contextHolder}
       <form className="mt-8 w-[30vh]" onSubmit={handleSubmit}>
+        {/* Currency */}
+
+        <div className="text-white text-2xl font-bold mb-6">
+          Balance : {userFinancesData.total}
+        </div>
+
         {/* Amount */}
         <div className="mb-4">
           <label
             htmlFor="amount"
-            className="block text-white text-sm font-bold mb-2 mt"
+            className="block text-white text-sm font-bold mb-2"
           >
             Amount
           </label>
@@ -132,6 +144,7 @@ const ExpenseForm = ({ token, refetch }) => {
             />
           </div>
         </div>
+
         {/* Type */}
         <div className={`mb-4 ${dropdownOpen1 ? "mt-28" : ""}`}>
           <label
@@ -150,6 +163,7 @@ const ExpenseForm = ({ token, refetch }) => {
             buttonStyle="w-full"
           />
         </div>
+
         {/* Outcome */}
         {selectedTypeOfExpens === "Outcome" && (
           <>
@@ -159,7 +173,7 @@ const ExpenseForm = ({ token, refetch }) => {
                 htmlFor="items"
                 className="block text-white text-sm font-bold mb-2"
               >
-                Items Purchase Date
+                Purchased Item Name
               </label>
               <input
                 type="text"
@@ -170,6 +184,7 @@ const ExpenseForm = ({ token, refetch }) => {
                 className="w-full px-3 py-2 border border-gray-300 text-white bg-transparent rounded-md focus:outline-none focus:ring focus:ring-blue-200"
               />
             </div>
+
             {/* Puchaser Date */}
             <div className="mb-4">
               <label
@@ -205,9 +220,14 @@ const ExpenseForm = ({ token, refetch }) => {
             </div>
           </>
         )}
+
         {/* Income */}
         {selectedTypeOfExpens === "Income" && (
-          <div className="mb-4">
+          <div
+            className={`mb-4 ${
+              dropdownOpen && selectedTypeOfExpens === "Income" ? "mt-36" : ""
+            }`}
+          >
             <label
               htmlFor="stored_income_date"
               className="block text-white text-sm font-bold mb-2"
@@ -240,9 +260,15 @@ const ExpenseForm = ({ token, refetch }) => {
             </div>
           </div>
         )}
+
+        {/* Submit Button */}
         <div
           className={`${
-            dropdownOpen && selectedTypeOfExpens !== "Outcome" ? "mt-36" : ""
+            dropdownOpen &&
+            selectedTypeOfExpens !== "Income" &&
+            selectedTypeOfExpens !== "Outcome"
+              ? "mt-36"
+              : ""
           }`}
         >
           <button
@@ -253,6 +279,8 @@ const ExpenseForm = ({ token, refetch }) => {
           </button>
         </div>
       </form>
+
+      {/* NIO Button */}
       <button
         className="w-full mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         onClick={() => setNoIncomeOutcome(true)}

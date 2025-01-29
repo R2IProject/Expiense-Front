@@ -4,9 +4,14 @@ import DynamicTable from "./components/table";
 import NewFinances from "./new";
 import axios from "axios";
 import { getUserFinancesData } from "@/hook/get_finances_by_id";
+import { getFinancesBalancesData } from "@/hook/get_finances_balances_by_user_id";
 
 export default function index({ token, user }) {
   const { getUserData, userData, loading, messages } = getUserFinancesData(
+    user._id,
+    token
+  );
+  const { getBalancesData, balancesData } = getFinancesBalancesData(
     user._id,
     token
   );
@@ -14,8 +19,16 @@ export default function index({ token, user }) {
   return (
     <SidebarLayout>
       <div className="flex justify-center space-x-32">
-        <NewFinances token={token} refetch={getUserData} />
+        <NewFinances
+          token={token}
+          refetch={getUserData}
+          refetchBalances={getBalancesData}
+          userFinancesData={balancesData}
+        />
         <DynamicTable
+          refetch={getUserData}
+          refetchBalances={getBalancesData}
+          token={token}
           userData={userData}
           loading={loading}
           messages={messages}
