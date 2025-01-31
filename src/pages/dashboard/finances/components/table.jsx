@@ -56,7 +56,7 @@ const Table = ({ userData, messages, token, refetch, refetchBalances }) => {
             </tr>
           </thead>
           <tbody>
-            {userData.map((item, index) => (
+            {userData?.map((item, index) => (
               <tr key={index}>
                 <td className="py-2 px-4 text-center">{index + 1}</td>
                 <td className="px-4 my-7 py-auto text-center flex gap-3 text-[30px]">

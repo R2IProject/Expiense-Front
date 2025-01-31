@@ -44,7 +44,7 @@ const Dropdown = ({
         <div
           className={`absolute w-full bg-transparent border border-gray-300 rounded-md mt-2 shadow-lg z-10 ${selectBodyStyle}`}
         >
-          {options.map((option, index) => (
+          {options?.map((option, index) => (
             <div
               key={index}
               className={`px-3 py-2 text-white cursor-pointer hover:bg-gray-500 ${selectColumnStyle}`}

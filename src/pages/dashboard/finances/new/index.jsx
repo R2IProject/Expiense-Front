@@ -111,7 +111,7 @@ const ExpenseForm = ({ token, refetch, userFinancesData, refetchBalances }) => {
         {/* Currency */}
 
         <div className="text-white text-2xl font-bold mb-6">
-          Balance : {userFinancesData.total}
+          Balance : {userFinancesData?.total}
         </div>
 
         {/* Amount */}

@@ -1,6 +1,12 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-};
+import withTM from "next-transpile-modules";
 
-export default nextConfig;
+const withTranspileModules = withTM([
+  "rc-util",
+  "rc-pagination",
+  "rc-picker",
+  "@ant-design/icons",
+]);
+
+export default withTranspileModules({
+  reactStrictMode: true,
+});

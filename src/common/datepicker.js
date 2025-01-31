@@ -66,7 +66,7 @@ export default function Calendar({
 
       {/* Days of the week */}
       <div className="grid grid-cols-7 gap-2 w-full text-center font-medium text-white">
-        {daysOfWeek.map((day, index) => (
+        {daysOfWeek?.map((day, index) => (
           <div key={index} className="p-2">
             {day}
           </div>
@@ -75,7 +75,7 @@ export default function Calendar({
 
       {/* Calendar Dates */}
       <div className="grid grid-cols-7 gap-2 w-full max-w-4xl text-center mt-2">
-        {dates.map((dateObj, index) => {
+        {dates?.map((dateObj, index) => {
           const formattedDate = `${year}-${String(month + 1).padStart(
             2,
             "0"
